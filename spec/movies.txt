@@ -1,0 +1,177 @@
+-----------------------------------------------------------------------------------------------------------
+1
+Star Wars: Episode VII - The Force Awakens			https://www.omdbapi.com/?apikey=e5e23cc7&i=tt2488496
+
+Title: "Star Wars: Episode VII - The Force Awakens"
+Released: "18 Dec 2015"
+Runtime: "138 min",
+Genre: "Action, Adventure, Sci-Fi"
+Director: "J.J. Abrams"
+Actors: "Daisy Ridley, John Boyega, Oscar Isaac"
+Plot: "As a new threat to the galaxy rises, Rey, a desert scavenger, and Finn, an ex-stormtrooper, must join Han Solo and Chewbacca to search for the one hope of restoring peace."
+Language: "English"
+Country: "United States"
+imdbRating: "7.8"
+imdbVotes: "939,151"
+imdbID: "tt2488496"
+
+-----------------------------------------------------------------------------------------------------------
+2
+Rurouni Kenshin Part I: Origins						https://www.omdbapi.com/?apikey=e5e23cc7&i=tt1979319
+
+Title: "Rurouni Kenshin Part I: Origins",
+Released: "25 Aug 2012",
+Runtime: "134 min",
+Genre: "Action, Adventure, Drama",
+Director: "Keishi Otomo",
+Actors: "Takeru Satoh, Emi Takei, Yû Aoi",
+Plot: "A former assassin who has resolved to never kill again has his vow sorely tested.",
+Language: "Japanese",
+Country: "Japan",
+imdbRating: "7.4",
+imdbVotes: "27,307",
+imdbID: "tt1979319",
+
+-----------------------------------------------------------------------------------------------------------
+3
+The Lord of the Rings: The Fellowship of the Ring	https://www.omdbapi.com/?apikey=e5e23cc7&i=tt0120737
+
+Title: "The Lord of the Rings: The Fellowship of the Ring",
+Released: "19 Dec 2001",
+Runtime: "178 min",
+Genre: "Action, Adventure, Drama",
+Director: "Peter Jackson",
+Actors: "Elijah Wood, Ian McKellen, Orlando Bloom",
+Plot: "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
+Language: "English, Sindarin",
+Country: "New Zealand, United States",
+imdbRating: "8.8",
+imdbVotes: "1,893,698",
+imdbID: "tt0120737",
+
+-----------------------------------------------------------------------------------------------------------
+4
+The Matrix											https://www.omdbapi.com/?apikey=e5e23cc7&i=tt0133093
+
+Title: "The Matrix",
+Year: "1999",
+Released: "31 Mar 1999",
+Runtime: "136 min",
+Genre: "Action, Sci-Fi",
+Director: "Lana Wachowski, Lilly Wachowski",
+Actors: "Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss",
+Plot: "When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence.",
+Language: "English",
+Country: "United States, Australia",
+imdbRating: "8.7",
+imdbVotes: "1,938,258",
+imdbID: "tt0133093",
+
+-----------------------------------------------------------------------------------------------------------
+5
+Batman Returns										https://www.omdbapi.com/?apikey=e5e23cc7&i=tt0103776
+
+Title: "Batman Returns",
+Year: "1992",
+Released: "19 Jun 1992",
+Runtime: "126 min",
+Genre: "Action, Crime, Fantasy",
+Director: "Tim Burton",
+Actors: "Michael Keaton, Danny DeVito, Michelle Pfeiffer",
+Plot: "While Batman deals with a deformed man calling himself the Penguin wreaking havoc across Gotham with the help of a cruel businessman, a female employee of the latter becomes the Catwoman with her own vendetta.",
+Language: "English",
+Country: "United States, United Kingdom",
+imdbRating: "7.1",
+imdbVotes: "310,598",
+imdbID: "tt0103776",
+
+-----------------------------------------------------------------------------------------------------------
+6
+Joker												https://www.omdbapi.com/?apikey=e5e23cc7&i=tt7286456
+
+Title: "Joker",
+Year: "2019",
+Released: "04 Oct 2019",
+Runtime: "122 min",
+Genre: "Crime, Drama, Thriller",
+Director: "Todd Phillips",
+Actors: "Joaquin Phoenix, Robert De Niro, Zazie Beetz",
+Plot: "The rise of Arthur Fleck, from aspiring stand-up comedian and pariah to Gotham's clown prince and leader of the revolution.",
+Language: "English",
+Country: "United States, Canada",
+imdbRating: "8.4",
+imdbVotes: "1,328,051",
+imdbID: "tt7286456",
+
+-----------------------------------------------------------------------------------------------------------
+7
+Yip Man												https://www.omdbapi.com/?apikey=e5e23cc7&i=tt1220719
+
+Title: "Ip Man",
+Year: "2008",
+Released: "12 Dec 2008",
+Runtime: "106 min",
+Genre: "Action, Biography, Drama",
+Director: "Wilson Yip",
+Actors: "Donnie Yen, Simon Yam, Siu-Wong Fan",
+Plot: "During the Japanese invasion of China, a wealthy martial artist is forced to leave his home when his city is occupied. With little means of providing for themselves, Ip Man and the remaining members of the city must find a way to ...",
+Language: "Cantonese, Mandarin, Japanese, Chinese, English",
+Country: "Hong Kong, China",
+imdbRating: "8.0",
+imdbVotes: "226,820",
+imdbID: "tt1220719",
+
+-----------------------------------------------------------------------------------------------------------
+8
+Fight Club											https://www.omdbapi.com/?apikey=e5e23cc7&i=tt0137523
+
+Title: "Fight Club",
+Year: "1999",
+Released: "15 Oct 1999",
+Runtime: "139 min",
+Genre: "Drama",
+Director: "David Fincher",
+Actors: "Brad Pitt, Edward Norton, Meat Loaf",
+Plot: "An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.",
+Language: "English",
+Country: "Germany, United States",
+imdbRating: "8.8",
+imdbVotes: "2,162,017",
+imdbID: "tt0137523",
+
+-----------------------------------------------------------------------------------------------------------
+9
+The Godfather										https://www.omdbapi.com/?apikey=e5e23cc7&i=tt0068646
+
+Title: "The Godfather",
+Year: "1972",
+Released: "24 Mar 1972",
+Runtime: "175 min",
+Genre: "Crime, Drama",
+Director: "Francis Ford Coppola",
+Actors: "Marlon Brando, Al Pacino, James Caan",
+Plot: "The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.",
+Language: "English, Italian, Latin",
+Country: "United States",
+imdbRating: "9.2",
+imdbVotes: "1,880,874",
+imdbID: "tt0068646",
+
+
+-----------------------------------------------------------------------------------------------------------
+10
+Pulp Fiction										https://www.omdbapi.com/?apikey=e5e23cc7&i=tt0110912
+
+Title: "Pulp Fiction",
+Year: "1994",
+Released: "14 Oct 1994",
+Runtime: "154 min",
+Genre: "Crime, Drama",
+Director: "Quentin Tarantino",
+Actors: "John Travolta, Uma Thurman, Samuel L. Jackson",
+Plot: "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
+Language: "English, Spanish, French",
+Country: "United States",
+imdbRating: "8.9",
+imdbVotes: "2,079,328",
+imdbID: "tt0110912",
