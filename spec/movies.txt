@@ -15,6 +15,7 @@ imdbRating: "7.8"
 imdbVotes: "939,151"
 imdbID: "tt2488496"
 
+pontos: 7325377.8
 -----------------------------------------------------------------------------------------------------------
 2
 Rurouni Kenshin Part I: Origins						https://www.omdbapi.com/?apikey=e5e23cc7&i=tt1979319
@@ -32,6 +33,7 @@ imdbRating: "7.4",
 imdbVotes: "27,307",
 imdbID: "tt1979319",
 
+pontos: 202071.8
 -----------------------------------------------------------------------------------------------------------
 3
 The Lord of the Rings: The Fellowship of the Ring	https://www.omdbapi.com/?apikey=e5e23cc7&i=tt0120737

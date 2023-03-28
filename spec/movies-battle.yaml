@@ -1,0 +1,274 @@
+openapi: 3.0.0
+info:
+  title: Movies Battle
+  description: Jogo em estilo card game, onde serão informados dois filmes e o jogador deve acertar aquele que possui melhor avaliação no IMDB
+  version: 1.0.0
+  contact:
+    name: Enok
+    email: enok.jesus@gmail.com
+    url: https://www.linkedin.com/in/enok/
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+
+  schemas:
+    Links:
+      type: object
+      properties:
+        self:
+          type: string
+          format: uri
+        next:
+          type: string
+          format: uri
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+
+    Filme:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+
+paths:
+  /login:
+    post:
+      summary: Realiza o login do jogador
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    usuario:
+                      type: string
+                    senha:
+                      type: string
+      responses:
+        '200':
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/Links'
+        '401':
+          description: Erro de autenticacao
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+                  links:
+                    $ref: '#/components/schemas/Links'
+        '403':
+          description: Erro de autorizacao
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+                  links:
+                    $ref: '#/components/schemas/Links'
+
+  /jogo:
+    post:
+      security:
+        - BasicAuth: []
+      summary: Inicia o jogo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Jogo iniciado com sucesso | Jogo finalizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    $ref: '#/components/schemas/Links'
+
+  /filmes:
+    get:
+      security:
+        - BasicAuth: []
+      summary: Busca o par de filmes
+      responses:
+        '200':
+          description: Retorna o par de filmes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      filmeA:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          nome:
+                            type: string
+                      filmeB:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          nome:
+                            type: string
+                  links:
+                    $ref: '#/components/schemas/Links'
+
+  /quiz:
+    post:
+      security:
+        - BasicAuth: []
+      summary: Jogador faz a aposta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    filmeId:
+                      type: string
+      responses:
+        '200':
+          description: Aposta realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      acertou:
+                        type: boolean
+                      filmeA:
+                        type: object
+                        properties:
+                          nome:
+                            type: string
+                          pontos:
+                            type: number
+                      filmeB:
+                        type: object
+                        properties:
+                          nome:
+                            type: string
+                          pontos:
+                            type: number
+                  links:
+                    $ref: '#/components/schemas/Links'
+        '400':
+          description: Não existe partida em andamento
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+                  links:
+                    $ref: '#/components/schemas/Links'
+
+  /ranking:
+    get:
+      security:
+        - BasicAuth: []
+      summary: Mostra o ranking dos jogadores
+      responses:
+        '200':
+          description: Ranking dos jogadores
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pontuacao:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        usuario:
+                          type: string
+                        ponto:
+                          type: integer
+                  links:
+                    $ref: '#/components/schemas/Links'
+
+  /finaliza:
+    post:
+      security:
+        - BasicAuth: []
+      summary: Finaliza o jogo e mostra o resultado da partida
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Jogo finalizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      pontos:
+                        type: integer
+                      erros:
+                        type: integer
+                  links:
+                    $ref: '#/components/schemas/Links'
+        '400':
+          description: Jogo em andamento
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+                  links:
+                    $ref: '#/components/schemas/Links'

@@ -10,7 +10,7 @@ SWAGGER (OpenAPI 3.0)
 	inicia o jogo
 	/jogo					POST
 		links.self -> /jogo
-		links.next -> /filmes | links.next -> /finalizar
+		links.next -> /filmes | links.next -> /finaliza
 	--------------------------------------------------------
 	busca o par de filmes
 	/filmes					GET
@@ -28,7 +28,7 @@ SWAGGER (OpenAPI 3.0)
 		List<Pontuacao>
 	--------------------------------------------------------
 	finaliza o jogo e mostra o resultado da partida
-	/final					POST
+	/finaliza				POST
 		Partida partida
 	--------------------------------------------------------
 
@@ -46,7 +46,7 @@ CONTROLLER
 		5 - 	se estiver em aberto faz forward links.next -> /filmes
 		6 - 	se estiver fechada
 		7 - 		verifica se existem mais de 3 erros na partida
-		8 - 			se existir faz forward links.next -> /finalizar
+		8 - 			se existir faz forward links.next -> /finaliza
 		9 - 		se nao abre nova partida e faz forward links.next -> /filmes
 		
 	/filmes
@@ -78,7 +78,7 @@ CONTROLLER
 		2 - o serviço deve buscar os jogadores por ordem decrescente de pontuacao
 		3 - parametro opcional 'limit' para limitar a quantidade de resultados retornados
 
-	/finalizar
+	/finaliza
 		1 - verifica se existe jogada em aberto
 		2 - 	ERRO -> bad request (jogo em aberto)
 		3 - se nao
