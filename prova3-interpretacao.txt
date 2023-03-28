@@ -1,0 +1,149 @@
+SWAGGER (OpenAPI 3.0)
+	--------------------------------------------------------
+	realiza o login do jogador
+	/login					POST
+		* String id
+		* String senha
+		links.self -> /login
+		links.next -> /jogo
+	--------------------------------------------------------
+	inicia o jogo
+	/jogo					POST
+		links.self -> /jogo
+		links.next -> /filmes | links.next -> /finalizar
+	--------------------------------------------------------
+	busca o par de filmes
+	/filmes					GET
+		* Filme filmeA
+		* Filme filmeB
+		links.self -> /filmes
+		links.next -> /quiz	| links.next -> /jogo
+	--------------------------------------------------------
+	jogador faz a aposta
+	/quiz					POST
+		Filme
+	--------------------------------------------------------
+	mostra o ranking dos jogadores
+	/ranking?limit=5		GET
+		List<Pontuacao>
+	--------------------------------------------------------
+	finaliza o jogo e mostra o resultado da partida
+	/final					POST
+		Partida partida
+	--------------------------------------------------------
+
+CONTROLLER
+	/login
+		1 - autenticar
+		2 - autorizar
+		3 - links.next -> /jogo
+		
+	/jogo
+		1 - identifica se existe registro na tabela 'partida' para o jogador corrente
+		2 - 	se nao cria um novo registro para o jogador na tabela 'partida'
+		3 - 	depois faz links.next -> /filmes
+		4 - se já existe verifica se a partida esta em aberto
+		5 - 	se estiver em aberto faz forward links.next -> /filmes
+		6 - 	se estiver fechada
+		7 - 		verifica se existem mais de 3 erros na partida
+		8 - 			se existir faz forward links.next -> /finalizar
+		9 - 		se nao abre nova partida e faz forward links.next -> /filmes
+		
+	/filmes
+		1 - identifica se o jogador tem alguma partida com rodada aberta
+		2 - 	se sim retorna os 2 filmes anteriormente buscados na tabela partida
+		3 - 	se nao busca 2 novos filmes na tabela filme
+		4 - 		enviar 2 que não estejam na filmesDisponibilizadosHistorico nem repetidos
+		4 -		forward links.next -> /quiz
+		5 - se nao faz links.next -> /jogo
+		
+	/quiz
+		1 - verifica se existe jogada em aberto
+		2 - 	se sim 
+		3 - 		jogador envia o filme escolhido
+		4 - 		valida se o filme pertence a lista
+		5 -				se nao ERRO -> bad request (filme nao pertence a lista)
+		6 -			compara se a pontuacao do escolhido é a maior entre os 2 filmes
+		7 - 			pontuacao = filme.nota * filme.votos
+		8 - 			se sim pontos++
+		9 - 			se nao erros++
+		10 - 			rodadaAberta = false
+		11 - 			links.next -> /jogo
+		12 - 	se nao 
+		13 - 		ERRO -> bad request (nao existe partida em andamento)
+		14 - 		links.next -> /jogo
+		
+	/ranking
+		1 - deve haver uma tabela ranking para armazenar a pontuacao de todos os jogadores
+		2 - o serviço deve buscar os jogadores por ordem decrescente de pontuacao
+		3 - parametro opcional 'limit' para limitar a quantidade de resultados retornados
+
+	/finalizar
+		1 - verifica se existe jogada em aberto
+		2 - 	ERRO -> bad request (jogo em aberto)
+		3 - se nao
+		4 - 	verifica se o jogador já existe na tabela ranking
+		5 - 		se nao grava os dados da partida na tabela
+		6 - 		se já existir soma os pontos da partida ao pontos do ranking
+		7 -				pontos partida = partida.pontos
+		8 - 	remove o jogador da tabela partida
+		9 - 	retorna a partida do jogador
+
+DATABASE
+	1 - tabelas
+		a - jogador
+			* String id
+			* String senha
+		b - partida
+			* String idJogador	// jogador.id
+			* Boolean rodadaAberta
+			* Map<String, Set<Filme>> filmesDisponibilizadosHistorico
+				a chave é criada 2 vezes:
+					i  - getFilmeKey(0, 1) -> filmesDisponibilizados
+					ii - getFilmeKey(1, 0) -> filmesDisponibilizados
+			* Set<Filme> filmesDisponibilizados
+			* Filme filmeEscolhido
+			* Integer pontos
+			* Integer erros
+			* getFilmeKey(i, j) -> filmesDisponibilizados.get(i).id + filmesDisponibilizados.get(j).id
+		c - filme
+			* String id
+			* String titulo
+			* LocalDate lancamento
+			* Integer duracao
+			* String genero
+			* String diretor
+			* String atores
+			* String plot
+			* String lingua
+			* String pais
+			* Double nota
+			* Integer votos
+		d - ranking
+			* String idJogador	// jogador.id
+			* Integer pontos
+
+
+SERVICES
+	carregarFilmes
+		1 - no diretorio resource deve haver um arquivo filme-ids.txt contendo os ids dos filmes a serem buscados
+		2 - a chave de acesso a api omdbapi deve estar presente no application.yaml (key = e5e23cc7)
+		3 - cada filme deve ser buscado na api usando a url: https://www.omdbapi.com/?apikey=<API-KEY>&i=<MOVIE-ID>
+		4 - uma vez buscado o filme ele devera ser armazenado na tabela filme
+		5 - deve ser executado no inicio da aplicacao
+
+	carregaJogadores
+		1 - no diretorio resource deve haver um arquivo data.sql com 2 jogadores que popula a tabela jogador
+		2 - deve ser executado no inicio da aplicacao
+
+	gerarRanking
+		1 - buscar os registros da tabela ranking
+		2 - ordenar os registros em ordem decrescente de pontuacao
+
+
+REQUISITOS
+	1 - jdk 17
+	2 - autenticacao basic
+	3 - banco h2
+	4 - o banco de filmes será montado no h2 chamando o servico de busca omdbapi
+	
