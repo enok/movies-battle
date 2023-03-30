@@ -20,29 +20,57 @@ components:
   schemas:
     Links:
       type: object
+      required:
+        - self
       properties:
         self:
           type: string
           format: uri
+          example: http://localhost:8080/login
         next:
           type: string
           format: uri
+          example: http://localhost:8080/jogo
 
     Error:
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: integer
+          example: 401
         message:
           type: string
+          example: Erro de autenticacao
 
     Filme:
       type: object
+      required:
+        - id
+        - nome
       properties:
         id:
           type: string
+          example: tt2488496
         nome:
           type: string
+          example: "Star Wars: Episode VII - The Force Awakens"
+
+    FilmePontos:
+      type: object
+      required:
+        - nome
+        - pontos
+      properties:
+        nome:
+          type: string
+          example: "Star Wars: Episode VII - The Force Awakens"
+        pontos:
+          type: number
+          format: float
+          example: 7325377.8
 
 paths:
   /login:
@@ -54,68 +82,108 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - data
               properties:
                 data:
                   type: object
+                  required:
+                    - usuario
+                    - senha
                   properties:
                     usuario:
                       type: string
+                      example: jose
                     senha:
                       type: string
+                      example: 123456
       responses:
-        '200':
+        "200":
           description: Login realizado com sucesso
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - links
                 properties:
                   links:
-                    $ref: '#/components/schemas/Links'
-        '401':
+                    $ref: "#/components/schemas/Links"
+              example:
+                links:
+                  self: http://localhost:8080/login
+                  next: http://localhost:8080/jogo
+        "401":
           description: Erro de autenticacao
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - error
+                  - links
                 properties:
                   error:
-                    $ref: '#/components/schemas/Error'
+                    $ref: "#/components/schemas/Error"
                   links:
-                    $ref: '#/components/schemas/Links'
-        '403':
+                    $ref: "#/components/schemas/Links"
+              example:
+                error:
+                  code: 401
+                  message: Erro de autenticacao
+                links:
+                  self: http://localhost:8080/login
+                  next: http://localhost:8080/login
+        "403":
           description: Erro de autorizacao
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - error
+                  - links
                 properties:
                   error:
-                    $ref: '#/components/schemas/Error'
+                    $ref: "#/components/schemas/Error"
                   links:
-                    $ref: '#/components/schemas/Links'
+                    $ref: "#/components/schemas/Links"
+              example:
+                error:
+                  code: 403
+                  message: Erro de autorizacao
+                links:
+                  self: http://localhost:8080/login
+                  next: http://localhost:8080/login
 
   /jogo:
     post:
       security:
         - BasicAuth: []
       summary: Inicia o jogo
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
       responses:
-        '200':
+        "200":
           description: Jogo iniciado com sucesso | Jogo finalizado
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - links
                 properties:
                   links:
-                    $ref: '#/components/schemas/Links'
+                    $ref: "#/components/schemas/Links"
+              examples:
+                proxima-rodada:
+                  value:
+                    links:
+                      self: http://localhost:8080/jogo
+                      next: http://localhost:8080/filmes
+                jogo-finalizado:
+                  value:
+                    links:
+                      self: http://localhost:8080/jogo
+                      next: http://localhost:8080/finaliza
 
   /filmes:
     get:
@@ -123,32 +191,45 @@ paths:
         - BasicAuth: []
       summary: Busca o par de filmes
       responses:
-        '200':
+        "200":
           description: Retorna o par de filmes
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - links
                 properties:
                   data:
                     type: object
+                    required:
+                      - filmeA
+                      - filmeB
                     properties:
                       filmeA:
-                        type: object
-                        properties:
-                          id:
-                            type: string
-                          nome:
-                            type: string
+                        $ref: "#/components/schemas/Filme"
                       filmeB:
-                        type: object
-                        properties:
-                          id:
-                            type: string
-                          nome:
-                            type: string
+                        $ref: "#/components/schemas/Filme"
                   links:
-                    $ref: '#/components/schemas/Links'
+                    $ref: "#/components/schemas/Links"
+              examples:
+                rodada-em-andamento:
+                  value:
+                    data:
+                      filmeA:
+                        id: tt2488496
+                        nome: "Star Wars: Episode VII - The Force Awakens"
+                      filmeB:
+                        id: tt1979319
+                        nome: "Rurouni Kenshin Part I: Origins"
+                    links:
+                      self: http://localhost:8080/filmes
+                      next: http://localhost:8080/quiz
+                rodada-fechada:
+                  value:
+                    links:
+                      self: http://localhost:8080/filmes
+                      next: http://localhost:8080/jogo
 
   /quiz:
     post:
@@ -161,114 +242,183 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - data
               properties:
                 data:
                   type: object
+                  required:
+                    - filmeId
                   properties:
                     filmeId:
                       type: string
+                      example: "tt2488496"
+            example:
+              data:
+                filmeId: tt1979319
       responses:
-        '200':
+        "200":
           description: Aposta realizada com sucesso
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - data
+                  - links
                 properties:
                   data:
                     type: object
+                    required:
+                      - acertou
+                      - filmeA
+                      - filmeB
                     properties:
                       acertou:
                         type: boolean
                       filmeA:
-                        type: object
-                        properties:
-                          nome:
-                            type: string
-                          pontos:
-                            type: number
+                        $ref: "#/components/schemas/FilmePontos"
                       filmeB:
-                        type: object
-                        properties:
-                          nome:
-                            type: string
-                          pontos:
-                            type: number
+                        $ref: "#/components/schemas/FilmePontos"
                   links:
-                    $ref: '#/components/schemas/Links'
-        '400':
+                    $ref: "#/components/schemas/Links"
+              example:
+                data:
+                  acertou: true
+                  filmeA:
+                    nome: "Star Wars: Episode VII - The Force Awakens"
+                    pontos: 7325377.8
+                  filmeB:
+                    nome: "Rurouni Kenshin Part I: Origins"
+                    pontos: 202071.8
+                links:
+                  self: http://localhost:8080/quiz
+                  next: http://localhost:8080/jogo
+        "400":
           description: Não existe partida em andamento
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - error
+                  - links
                 properties:
                   error:
-                    $ref: '#/components/schemas/Error'
+                    $ref: "#/components/schemas/Error"
                   links:
-                    $ref: '#/components/schemas/Links'
+                    $ref: "#/components/schemas/Links"
+              example:
+                error:
+                  code: 400
+                  message: Nao existe partida em andamento
+                links:
+                  self: http://localhost:8080/quiz
+                  next: http://localhost:8080/jogo
 
   /ranking:
     get:
       security:
         - BasicAuth: []
       summary: Mostra o ranking dos jogadores
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Limite de resultados retornados
+          required: false
       responses:
-        '200':
+        "200":
           description: Ranking dos jogadores
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - pontuacao
+                  - links
                 properties:
                   pontuacao:
                     type: array
                     items:
                       type: object
+                      required:
+                        - usuario
+                        - ponto
                       properties:
                         usuario:
                           type: string
-                        ponto:
+                          example: "jose"
+                        pontos:
                           type: integer
+                          example: 123
                   links:
-                    $ref: '#/components/schemas/Links'
+                    $ref: "#/components/schemas/Links"
+              example:
+                pontuacao:
+                  - usuario: "maria"
+                    ponto: 234
+                  - usuario: "jose"
+                    ponto: 123
+                links:
+                  self: "http://locahost:8080/ranking"
+                  next: "http://locahost:8080/jogo"
 
   /finaliza:
     post:
       security:
         - BasicAuth: []
       summary: Finaliza o jogo e mostra o resultado da partida
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
       responses:
-        '200':
+        "200":
           description: Jogo finalizado com sucesso
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - data
+                  - links
                 properties:
                   data:
                     type: object
+                    required:
+                      - pontos
+                      - erros
                     properties:
                       pontos:
                         type: integer
+                        example: 5
                       erros:
                         type: integer
+                        example: 5
                   links:
-                    $ref: '#/components/schemas/Links'
-        '400':
+                    $ref: "#/components/schemas/Links"
+              example:
+                data:
+                  pontos: 5
+                  erros: 5
+                links:
+                  self: "http://locahost:8080/finaliza"
+        "400":
           description: Jogo em andamento
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - error
+                  - links
                 properties:
                   error:
-                    $ref: '#/components/schemas/Error'
+                    $ref: "#/components/schemas/Error"
                   links:
-                    $ref: '#/components/schemas/Links'
+                    $ref: "#/components/schemas/Links"
+              example:
+                error:
+                  code: 400
+                  message: "Jogo em andamento"
+                links:
+                  self: "http://locahost:8080/finaliza"
+                  next: "http://locahost:8080/jogo"
